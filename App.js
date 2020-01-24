@@ -3,6 +3,7 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import IndexScreen from './src/screens/IndexScreen';
+import React from 'react'; // must import it always when using jsx <>
 
 //create navigator (between screens)
 //it must have 2 args
@@ -20,5 +21,14 @@ const navigator = createStackNavigator(
     }
   }
 );
+// createappcontainer takes in our navigator and returns a very simple react component 
+//that shows some very particular component on the screen (like index screen).
+//export default createAppContainer(navigator);
 
-export default createAppContainer(navigator);
+//instead of exporting the container with navigator - we assign the results of that function to a variable 'app'.
+const App = createAppContainer(navigator);
+
+//export default my own custom component -simple function that's going to return app:
+export default () =>{
+  return <App />;
+}
