@@ -4,6 +4,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import IndexScreen from './src/screens/IndexScreen';
 import React from 'react'; // must import it always when using jsx <>
+import { BlogProvider } from './src/context/BlogContext';// import in {}, because it's not a default export, but a variable to export
 
 //create navigator (between screens)
 //it must have 2 args
@@ -30,5 +31,11 @@ const App = createAppContainer(navigator);
 
 //export default my own custom component -simple function that's going to return app:
 export default () =>{
-  return <App />;
-}
+  //passing <app> as children to <BlogProvider>
+  return <BlogProvider>
+    <App />
+  </BlogProvider>
+  };
+//{children} is a var declared in BlogContext and - initialized in App.js as <App>
+//it means all wrapped stack navigator (in custom "app" component)
+// is directly accessed by the blogcontext
