@@ -1,19 +1,24 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+//import { createAppContainer, createStackNavigator } from 'react-navigation';
+//changed because of updated and more downloads 
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import IndexScreen from './src/screens/IndexScreen';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+//create navigator (between screens)
+//it must have 2 args
+const navigator = createStackNavigator(
+  {
+//1.is our route configuration object so we list out all the possible screens that a user can navigate to
+    Index: IndexScreen
+  }, 
+  {
+//2.configuration options specifically for our stack Navigator: 
+    initialRouteName: 'Index',
+    defaultNavigationOptions: {
+//this title is set inside of the header.
+      title: 'Blogs'
+    }
+  }
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default createAppContainer(navigator);
