@@ -6,7 +6,7 @@ import createDataContext from './createDataContext';
 /*
 import createDataContext from './createDataContext';// don't need it specificallyy now after created and imported the createDataContext(automated)
 */
-const BlogContext = React.createContext();
+//const BlogContext = React.createContext();//don't need now - will be created automatically
 //reducer has 2 args: 1. state, 2. action and uses switch statement to do the action clicked on:
 const blogReducer = (state, action)=>{
 //the difference with reducer is that we can very easily add additional case statements to switch and can modify our list of blog posts in different ways:
@@ -20,10 +20,15 @@ const blogReducer = (state, action)=>{
 };
 
 //create a new temp helper func 'addblogpost' -I'm gonna pass this helper function down into my value prop -
-//so that my index screen can very easily dispatch in action to add in a new blog post:
-const addBlogPost = () => {
+//so that my index screen can very easily dispatch in action to add in a new blog post
+//we must make sure that this add blog post function gets access to dispatch from another file (createdatacontext)-
+//-that's how we change our state- make sure that we call this function  with The (Dispatch)
+const addBlogPost = dispatch => {
+    return ()=>{
     dispatch({ type: 'add_blogpost'});
+    };
 //anytime someone calls add blog post we're going to dispatch an action object, which is 'add_blogpost' from switch
+//it describes how we want to change our data.
 };
 
 //new export statement: destructure out context and provider from create datacontext func:

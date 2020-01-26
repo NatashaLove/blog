@@ -17,7 +17,22 @@ export default (reducer, actions, initialState)=> {
     const Provider = ({children}) => {
         const[state, dispatch] = useReducer(reducer, initialState);
 
-        return <Context.Provider value={{state}}>
+//actions === { addBlogPOst: (dispatch) => {return ()=>{}}}
+/*
+we're going to loop through that actions object for every key-add a blog post 
+-we're gonna take that function and call it with the dispatch argument /addBlogPOst: (dispatch)/ 
+and that's going to give us back that function 'return ()=>{}'.
+And we're going to pass it on down into our value prop right here below:
+And it's essentially going to let all of our child components make changes to our state object..
+*/
+
+const boundActions = {};
+for (let key in actions) {
+    boundActions[key] = actions[key](dispatch);
+}
+
+
+        return <Context.Provider value={{state, ...boundActions }}>
             {children}
         </Context.Provider>
     }

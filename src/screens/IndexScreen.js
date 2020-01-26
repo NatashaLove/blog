@@ -2,14 +2,15 @@ import React, { useContext } from 'react';//imported hook into the child : useCo
 //function that's going look at some context object and give us access (to value prop - for example)
 import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
 //need flatlist for  arr of posts (objects)
-import BlogContext from '../context/BlogContext';
+import {Context} from '../context/BlogContext';
 
 
 
 const IndexScreen = () => {
-//variable 'blogPosts' here is going to be exactly = to the value prop assigned in the blogcontext.provider
-//instead of var 'blogPosts' - insert the value - destructured object from BlogContext with callback func:
-const {data, addBlogPost} = useContext(BlogContext);
+//(variable 'blogPosts' here is going to be exactly = to the value prop assigned in the blogcontext.provider
+//instead of var 'blogPosts' - insert the value - destructured object from BlogContext with callback func)
+//state==data
+const {state, addBlogPost} = useContext(Context);
 
     return (
         <View>
@@ -20,8 +21,7 @@ const {data, addBlogPost} = useContext(BlogContext);
             onPress ={addBlogPost}/> 
              <FlatList
 //data prop =blog posts: our array of objects 
-//replace 'blogPosts' with 'data' from the object BlogContext - above
-                data={data} // pass in that data property to our flat list
+                data={state} // pass in that data property to our flat list
 
 // key extractor: a function that's going to be called with every object inside of our array.
 // from key extractor we have to return a String to be used as a key: in our case we have a unique string -
