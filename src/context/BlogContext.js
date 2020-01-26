@@ -1,8 +1,11 @@
-import React, { useReducer } from 'react';
+//import React, { useReducer } from 'react';// don't need now because not using jsx in this file..
+import createDataContext from './createDataContext';
 //adding useState helper function to rerender app with new data
 //but going to use hook - useReducer instead- the key to the reducer function - 
 // no matter what it always returns a new value to be used as our state object
-
+/*
+import createDataContext from './createDataContext';// don't need it specificallyy now after created and imported the createDataContext(automated)
+*/
 const BlogContext = React.createContext();
 //reducer has 2 args: 1. state, 2. action and uses switch statement to do the action clicked on:
 const blogReducer = (state, action)=>{
@@ -13,19 +16,8 @@ const blogReducer = (state, action)=>{
             return [...state,{ title: `Blog Post #${state.length + 1}`}];//2 arg- action
         default:
             return state;
-
     }
 };
-
-//create blog post provider
-//export in order to make use of it inside of app.js
-//export const (not default) - because exporting it into the same file - 
-//into BlogContext - and then exporting Blog context as default 
-export const BlogProvider = ( {children})=> {
-// created component which can accept another component as {children}- argument - it is <App> wrapped in this {children} arg   
-
-const [blogPosts, dispatch] = useReducer(blogReducer, []);//useReducer func: 1arg-reducer itself created earlier, 2 arg- initial state of obj - empty arr
-//when application first starts up we have an empty array because by default there won't be any blog posts 
 
 //create a new temp helper func 'addblogpost' -I'm gonna pass this helper function down into my value prop -
 //so that my index screen can very easily dispatch in action to add in a new blog post:
@@ -33,6 +25,32 @@ const addBlogPost = () => {
     dispatch({ type: 'add_blogpost'});
 //anytime someone calls add blog post we're going to dispatch an action object, which is 'add_blogpost' from switch
 };
+
+//new export statement: destructure out context and provider from create datacontext func:
+export const { Context, Provider}= createDataContext(
+//all 3 args from the function in the file: 1.reducer, 2.object that contains all the different actions that we want to have:
+//In that case that's gonna be our addblogpost function, 3.initial default state value =an empty array :
+    blogReducer, 
+    { addBlogPost}, 
+    []
+    )
+
+
+/*
+ //!!!pasted addBlogPost func outside the function : 'export const BlogProvider = ( {children})=> ' and deleted the entire Blogprovider,
+ because everything inside of here is always going to look almost identical no matter what type of resource we are dealing with!!!
+
+//create blog post provider
+//export in order to make use of it inside of app.js
+//export const (not default) - because exporting it into the same file - 
+//into BlogContext - and then exporting Blog context as default 
+-------
+
+export const BlogProvider = ( {children})=> {
+// created component which can accept another component as {children}- argument - it is <App> wrapped in this {children} arg   
+
+const [blogPosts, dispatch] = useReducer(blogReducer, []);//useReducer func: 1arg-reducer itself created earlier, 2 arg- initial state of obj - empty arr
+//when application first starts up we have an empty array because by default there won't be any blog posts 
 
 //setBlogPosts -this setter completely updates this list blogPosts- but since now using hook useReducer - changed to 'dispatch' func,
 //also could change 'blogPost' by 'state'(for reducer) - but not necessary, better to remember that it's a list of posts. 
@@ -48,13 +66,13 @@ const addBlogPost = () => {
     }//2nd arg -new blog post = new object: to have a property title - but changing blog title with every new post:
     //So going to make the title out of a template string: so use `back ticks` and make the title "blog post #" 
     //and to print out the number of this new blog posts=its index - to use it-  place dollar sign $, curly braces{} and inside - the length of blog posts+1.
-*/
+
 //creating arr of blog posts - later will use it as 'value' in blogCobtext.provider:
 /*const blogPosts = [
     {title: 'Blog Post #1'},
     {title: 'Blog Post #2'}
 ];
-*///but rather than generating this static list of blog posts-better use a STATE var 
+//but rather than generating this static list of blog posts-better use a STATE var 
 //rerender app after the data was changed - change of STATE- for that we need a state variable-with every new blog post added - it'll rerender the app
 
 //.Provider accepts information - so must be with the context obj;
@@ -75,4 +93,7 @@ return <BlogContext.Provider value={{ data: blogPosts, addBlogPost }}>
 // is directly accessed by the blogcontext
 
 export default BlogContext;
+
 //export default it - so other children could access it and the data in it directly
+// we don't really need to export our blog context anymore because that's not even created inside of here - deleted..
+*/
