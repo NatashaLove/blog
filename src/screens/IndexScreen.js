@@ -3,8 +3,7 @@ import React, { useContext } from 'react';//imported hook into the child : useCo
 import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
 //need flatlist for  arr of posts (objects)
 import {Context} from '../context/BlogContext';
-
-
+import {Feather} from '@expo/vector-icons';//library on github with icons (trash icon)
 
 const IndexScreen = () => {
 //(variable 'blogPosts' here is going to be exactly = to the value prop assigned in the blogcontext.provider
@@ -14,7 +13,6 @@ const {state, addBlogPost} = useContext(Context);
 
     return (
         <View>
-            <Text>Index Screen</Text>
             <Button title="Add Post" 
             //callback func onPress ={() => addBlogPost()} can be shortened - rather than creating this extra function -
             // we can instead just pass a reference to the function that we want to be called anytime a user presses:
@@ -33,13 +31,37 @@ const {state, addBlogPost} = useContext(Context);
 //So we destructure that off with a set of curly braces 
 // item inside is equal to our individual blog post objects:                
                 renderItem={({ item }) => {
-                return <Text>{item.title}</Text>;
+//wrapped Text in View to be able to add Icon next to text and other elements:
+                return (
+                <View style={styles.row}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Feather style={styles.icon} name="trash" />
+                </View>
+                );
                 }}
              />
         </View>
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+
+    row: {
+        flexDirection: 'row',//to have elements on the same line
+        justifyContent: 'space-between',//to add space between everything inside of this view.
+        paddingVertical: 20, //to get some spacing above and below each blog post.
+        paddingHorizontal: 10,// adds space on edges, not to have to do margins
+        borderTopWidth: 1,
+        //borderBottomWidth: 1,
+        borderColor: 'gray'
+
+    },
+    title: {
+        fontSize: 18
+    },
+    icon: {
+        fontSize: 24
+    }
+});
 
 export default IndexScreen;
