@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';//imported hook into the child : useContext - to make use of that contex (from BlogContext)
 //function that's going look at some context object and give us access (to value prop - for example)
-import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native';
 //need flatlist for  arr of posts (objects)
 import {Context} from '../context/BlogContext';
 import {Feather} from '@expo/vector-icons';//library on github with icons (trash icon)
@@ -9,7 +9,7 @@ const IndexScreen = () => {
 //(variable 'blogPosts' here is going to be exactly = to the value prop assigned in the blogcontext.provider
 //instead of var 'blogPosts' - insert the value - destructured object from BlogContext with callback func)
 //state==data
-const {state, addBlogPost} = useContext(Context);
+const {state, addBlogPost, deleteBlogPost} = useContext(Context);
 
     return (
         <View>
@@ -34,8 +34,14 @@ const {state, addBlogPost} = useContext(Context);
 //wrapped Text in View to be able to add Icon next to text and other elements:
                 return (
                 <View style={styles.row}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Feather style={styles.icon} name="trash" />
+                <Text style={styles.title}>
+                    {item.title} - {item.id}
+                </Text>
+                <TouchableOpacity onPress={()=>deleteBlogPost(item.id)}
+ //TouchableOpacity to be able to click the icon (it's not button)               
+                >
+                    <Feather style={styles.icon} name="trash" />
+                </TouchableOpacity>
                 </View>
                 );
                 }}
