@@ -57,6 +57,17 @@ const {state, addBlogPost, deleteBlogPost} = useContext(Context);
     );
 };
 
+IndexScreen.navigationOptions = ({ navigation}) => {
+    return {
+//returning obj - which we can use to customize things that are displayed inside of our header and what happens whenever users say taps on them        
+        headerRight: 
+        <TouchableOpacity onPress={()=> navigation.navigate('Create') }>
+         <Feather name="plus" size ={30} />
+        </TouchableOpacity>
+//react element assigned directly to headerRight - will be displayed on the right side of the header.        
+    };
+};
+
 const styles = StyleSheet.create({
 
     row: {
