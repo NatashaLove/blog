@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity } from 'reac
 import {Context} from '../context/BlogContext';
 import {Feather} from '@expo/vector-icons';//library on github with icons (trash icon)
 
-const IndexScreen = () => {
+const IndexScreen = ({navigation}) => {//{navigation } is the prop we need
 //(variable 'blogPosts' here is going to be exactly = to the value prop assigned in the blogcontext.provider
 //instead of var 'blogPosts' - insert the value - destructured object from BlogContext with callback func)
 //state==data
@@ -33,6 +33,12 @@ const {state, addBlogPost, deleteBlogPost} = useContext(Context);
                 renderItem={({ item }) => {
 //wrapped Text in View to be able to add Icon next to text and other elements:
                 return (
+                    <TouchableOpacity 
+                    onPress = {()=>navigation.navigate('Show', { id: item.id})}
+//anytime we call the navigate function - we can optionally pass in a second argument-
+//that will convey some information to the next screen that we want to show .
+//so as second argument we put in an object that has an I.D. property - the I.D. of the item that we want to show on the other screen.                    
+                    >
                 <View style={styles.row}>
                 <Text style={styles.title}>
                     {item.title} - {item.id}
@@ -43,6 +49,7 @@ const {state, addBlogPost, deleteBlogPost} = useContext(Context);
                     <Feather style={styles.icon} name="trash" />
                 </TouchableOpacity>
                 </View>
+                </TouchableOpacity>
                 );
                 }}
              />

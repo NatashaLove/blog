@@ -22,7 +22,7 @@ const blogReducer = (state, action)=>{
                 }
             ];//2 arg- action
 
-//filter function is going to iterate through all the different elements inside of our state array and then run some child function 
+//filter function-helper func for arrays- is going to iterate through all the different elements inside of our state array and then run some child function 
 //+that we'll pass in, if we return a true value from this.
 //Then the given element will be returned inside of an overall new overall array.
 //-If we return false then it's going to be rejected.
@@ -61,7 +61,6 @@ export const { Context, Provider}= createDataContext(
     { addBlogPost, deleteBlogPost}, 
     []
     )
-
 
 /*
  //!!!pasted addBlogPost func outside the function : 'export const BlogProvider = ( {children})=> ' and deleted the entire Blogprovider,
