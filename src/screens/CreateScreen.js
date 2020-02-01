@@ -1,11 +1,15 @@
 import React, { useContext, useState } from 'react';//useState here to control TextInput
 import { View, Text, TextInput, StyleSheet, Button } from 'react-native';//TextInput for the user to input text
-import { Context } from '../context/BlogContext';
+import { Context } from '../context/BlogContext';// import can get access to our context
 
 const CreateScreen = ({ navigation})=> {
 //need two different pieces of state one to handle the title entry and one to handle the content entry:
     const [title, setTitle]= useState('');
     const[content, setContent] = useState('');
+//inside of main component (CreateScreen) call usecontext and pass in the context object and then 
+//we're going to get back our whole big 'state' object and all its different action functions.
+//now we only care about addblogpost so I'm going to destructure out ad blog post  : 
+    const {addBlogPost} = useContext(Context);
 
     return (
         <View>
@@ -21,7 +25,11 @@ const CreateScreen = ({ navigation})=> {
                 value={content} 
                 onChangeText={(text) => setContent(text)} 
             />
-            <Button title="Add Blog Post" />
+            <Button 
+                title="Add Blog Post" 
+                onPress={()=> addBlogPost(title, content)}
+// we call addblogpost with args: title and content Whenever user taps on the button 
+                />
         </View>
     );
 };

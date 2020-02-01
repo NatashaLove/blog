@@ -18,7 +18,9 @@ const blogReducer = (state, action)=>{
                 { 
 //we should add in an I.D. property-we can use this I.D. to figure out exactly what blog post a user is trying to delete.
                     id: Math.floor (Math.random()*99999),//randomly generates the I.D
-                    title: `Blog Post #${state.length + 1}`
+                    title: action.payload.title,  //!we want to use payload from the method to set the user's title and the content!
+//instead of title- `Blog Post #${state.length + 1}`
+                    content: action.payload.content
                 }
             ];//2 arg- action
 
@@ -40,8 +42,9 @@ const blogReducer = (state, action)=>{
 //we must make sure that this add blog post function gets access to dispatch from another file (createdatacontext)-
 //-that's how we change our state- make sure that we call this function  with The (Dispatch)
 const addBlogPost = dispatch => {
-    return ()=>{
-    dispatch({ type: 'add_blogpost'});
+    return (title, content)=>{ //we can accept some arguments {title, content} -
+    //that will come from our component (CreateScreen) and then pass those through to the dispatch function
+    dispatch({ type: 'add_blogpost', payload: { title, content}});//add those both { title, content} in to a payload property
     };
 //anytime someone calls add blog post we're going to dispatch an action object, which is 'add_blogpost' from switch
 //it describes how we want to change our data.
