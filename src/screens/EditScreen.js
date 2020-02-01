@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';//useState here to control TextInput
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native';//TextInput for the user to input text
+import React, { useContext } from 'react';//useState here to control TextInput
+import { StyleSheet } from 'react-native';//TextInput for the user to input text
 import { Context } from '../context/BlogContext';// import can get access to our context
+import BlogPostForm from '../components/BlogPostForm';
 
 const EditScreen = ({navigation})=> {
     const { state } =useContext(Context);
@@ -8,6 +9,19 @@ const EditScreen = ({navigation})=> {
     const blogPost = state.find(
         (blogPost) => blogPost.id === navigation.getParam('id')
     );
+
+    return <BlogPostForm />
+    
+};
+
+const styles = StyleSheet.create({});
+
+export default EditScreen;
+
+//{navigation.getParam('id')}//like that edit screen knows -
+//-0exactly what it is supposed to be editing. -inside <Text></Text>
+/*
+these lines are transferred from inside of the component to the blogpostform:
 //whenever we call useState- we pass in the initial default value inside-
 //our initial default value for title is this blogpost title:
     const [title, setTitle] = useState(blogPost.title);
@@ -16,16 +30,11 @@ const EditScreen = ({navigation})=> {
 
     const [content, setContent] = useState(blogPost.content);
 
-    return (
+//this code (direct call) was deleted from return:
+(
         <View>
             <Text> Edit Title: </Text>
             <TextInput value={title} onChangeText= {(newTitle) => setTitle(newTitle) } />
         </View>
-    );
-};
-
-const styles = StyleSheet.create({});
-
-export default EditScreen;
-
-//{navigation.getParam('id')}//like that edit screen knows exactly what it is supposed to be editing. -inside <Text></Text>
+    );    
+*/

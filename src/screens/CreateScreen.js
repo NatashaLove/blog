@@ -1,17 +1,34 @@
-import React, { useContext, useState } from 'react';//useState here to control TextInput
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native';//TextInput for the user to input text
+import React, { useContext } from 'react';//useState here to control TextInput
+import { StyleSheet } from 'react-native';
 import { Context } from '../context/BlogContext';// import can get access to our context
+import BlogPostForm from '../components/BlogPostForm';
 
 const CreateScreen = ({ navigation})=> {
-//need two different pieces of state one to handle the title entry and one to handle the content entry:
+/*
+this code was transferred to blogpostform:
+    //need two different pieces of state one to handle the title entry and one to handle the content entry:
     const [title, setTitle]= useState('');
     const[content, setContent] = useState('');
-//inside of main component (CreateScreen) call usecontext and pass in the context object and then 
-//we're going to get back our whole big 'state' object and all its different action functions.
-//now we only care about addblogpost so I'm going to destructure out ad blog post  : 
-    const {addBlogPost} = useContext(Context);
+    */
+//inside of main component (CreateScreen) call usecontext and pass in the context object and then -
+//-we're going to get back our whole big 'state' object and all its different action functions.
+//now we only care about addblogpost so I'm going to destructure out adblogpost  : 
+  const {addBlogPost} = useContext(Context);
 
-    return (
+  return <BlogPostForm />
+    
+};
+
+const styles = StyleSheet.create({
+
+    
+});
+
+export default CreateScreen;
+
+//this return statement from the createscreen component - was transferred to the blogpostform-because it's a separate component now:
+/*
+return (
         <View>
             <Text style={styles.label}>Enter Title:</Text>
             <TextInput 
@@ -41,25 +58,4 @@ const CreateScreen = ({ navigation})=> {
                 />
         </View>
     );
-};
-
-const styles = StyleSheet.create({
-
-    input: {
-        fontSize:18,
-        borderWidth: 1,
-        borderColor: 'black',
-        marginHorizontal:5,//mRgins on both sides
-        marginBottom:5,
-        paddingHorizontal:5 //to get a little bit spacing between the text and the border
-
-    },
-    label: {
-        fontSize:20,
-        marginBottom:5,
-        marginHorizontal:5
-    }
-
-});
-
-export default CreateScreen;
+*/
