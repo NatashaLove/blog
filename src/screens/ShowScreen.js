@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Context } from '../context/BlogContext';
-
+import {EvilIcons} from '@expo/vector-icons';
 // I.D. that we passed in is not provided directly as a prop -
 // we have to receive that {navigation} prop -the navigation prop has a function
 //called Get param- then pass in a string that will be the I.D. or some of the property name 
@@ -16,8 +16,21 @@ const ShowScreen = ({ navigation})=> {
     return (
         <View>
             <Text>{blogPost.title}</Text>
+            <Text>{blogPost.content}</Text>
         </View>
     );
+};
+/*
+when we want to show something inside the header- under our main component add in ShowScreen.navigationOptions = () =>
+ and this is going to be a function that needs to return a configuration object that'll customize our header.
+*/
+ShowScreen.navigationOptions = ({navigation}) => {
+    return {
+        headerRight : <TouchableOpacity onPress ={() => navigation.navigate('Edit')}>
+            <EvilIcons name="pencil" size={35} />
+        </TouchableOpacity>
+
+    };
 };
 
 const styles = StyleSheet.create({});
