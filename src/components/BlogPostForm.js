@@ -4,13 +4,13 @@ import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 
 //should receive this onSubmit prop (from the CreateScreen) at the top of the function-
 // destructure onSubmit out of our props object (it becomes one of its props- so we can use it): 
-const BlogPostForm = ( {onSubmit} )=> {
+const BlogPostForm = ( {onSubmit, initialValues} )=> {
 //need two different pieces of state one to handle the title entry and one to handle the content entry;
 // we need to tell those text inputs what their values are- 
 //We need to customize those initial starting values that we're passing:
-    const [title, setTitle]= useState('');
-    const[content, setContent] = useState('');
-
+    const [title, setTitle]= useState(initialValues.title);
+    const[content, setContent] = useState(initialValues.content);
+//added var initialValues for editscreen- but this var is undefined for CreateScreen-(doesn't provide it)
   
     return (
         <View>
@@ -39,6 +39,23 @@ const BlogPostForm = ( {onSubmit} )=> {
         </View>
     );
 };
+
+//smth.smth = {} - means "equal to an object"
+
+//defaultProps property right here can be used to give our component some default property values (if another component doesn't provide)-
+//react is going to automatically check if our component has this defaultProps property- if it does it's just going to use these props.
+//if we ever show this component <BlogPostForm> and choose not to pass in some given prop,
+// this object ( BlogPostForm.defaultProps = {}; )- will be used to fill in some default values;
+// inside we can put in initialValues and set that to an object that has a 'title'= empty string and content = empty string as well:
+BlogPostForm.defaultProps = {
+    initialValues : {
+        title: '',
+        content: ''
+    }
+};
+//whenever we show blogpostform from the createscreen initialValues.title =
+//=will be an empty string and content will be an empty string.
+//(solving error with extra vars from other components like this with default values)
 
 const styles = StyleSheet.create({
     input: {

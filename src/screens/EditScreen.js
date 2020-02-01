@@ -5,13 +5,28 @@ import BlogPostForm from '../components/BlogPostForm';
 
 const EditScreen = ({navigation})=> {
     const { state } =useContext(Context);
+    const {addBlogPost} = useContext(Context);
 //iterate through arr blogpost- all the posts and find one with the same I.D. as navigation get param I.D
     const blogPost = state.find(
         (blogPost) => blogPost.id === navigation.getParam('id')
     );
 
-    return <BlogPostForm />
-    
+//add in some callback func to our editscreen and pass it down into blogpostform(separate component/file)-
+// and then we will come back to this <BlogPostForm> and make sure -
+//-that we take that updated/edited title and content and pass it to some function -
+//coming from our 'Context' object inside of editScreen:
+    return (
+//existing title and content values should be taken from -const BlogPost - above (by id),
+//and passed down as some starting initial form values to our form:        
+        <BlogPostForm 
+            initialValues={{ title: blogPost.title, content: blogPost.content}}
+            onSubmit={(title, content) => {
+
+        console.log(title,content);
+        addBlogPost(title, content, () => navigation.navigate('Index'));
+            }} 
+        />
+    );
 };
 
 const styles = StyleSheet.create({});
