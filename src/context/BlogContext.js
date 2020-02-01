@@ -65,7 +65,8 @@ export const { Context, Provider}= createDataContext(
 //In that case that's gonna be our addblogpost function, 3.initial default state value =an empty array :
     blogReducer, 
     { addBlogPost, deleteBlogPost}, 
-    []
+    [{title: 'TEST POST', content: 'TEST CONTENT', id: 1 }] // we could put in some default blog post to appear when our application is first loaded:
+    //inside of this array - put in an object with the title 'test post', content 'test content' and id:1
     )
 
 /*
