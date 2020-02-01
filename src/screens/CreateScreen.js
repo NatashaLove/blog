@@ -27,7 +27,16 @@ const CreateScreen = ({ navigation})=> {
             />
             <Button 
                 title="Add Blog Post" 
-                onPress={()=> addBlogPost(title, content)}
+                onPress={()=> {
+                    addBlogPost(title, content, ()=> {
+                        navigation.navigate('Index');
+//better pass that navigate call inside of a callback to addblogpost as a third argument-
+//it gets a callback function with the navigate call inside. 
+//!!!above is a very valuable solution for handling any kind of saving of data to an outside API                       
+                    });
+// navigation.navigate('Index');-better not to immediately put it after-
+// in case the above function is more complex and then this code may cause error
+                }}
 // we call addblogpost with args: title and content Whenever user taps on the button 
                 />
         </View>

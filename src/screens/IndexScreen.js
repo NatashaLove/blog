@@ -9,15 +9,18 @@ const IndexScreen = ({navigation}) => {//{navigation } is the prop we need
 //(variable 'blogPosts' here is going to be exactly = to the value prop assigned in the blogcontext.provider
 //instead of var 'blogPosts' - insert the value - destructured object from BlogContext with callback func)
 //state==data
-const {state, addBlogPost, deleteBlogPost} = useContext(Context);
+const {state, deleteBlogPost} = useContext(Context);
 
-    return (
-        <View>
-            <Button title="Add Post" 
+/*
+had to delete the button (it was in View below):
+<Button title="Add Post" 
             //callback func onPress ={() => addBlogPost()} can be shortened - rather than creating this extra function -
             // we can instead just pass a reference to the function that we want to be called anytime a user presses:
-            onPress ={addBlogPost}/> 
-             <FlatList
+ onPress ={addBlogPost}/> 
+*/
+    return (
+        <View>
+            <FlatList
 //data prop =blog posts: our array of objects 
                 data={state} // pass in that data property to our flat list
 

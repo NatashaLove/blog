@@ -42,10 +42,13 @@ const blogReducer = (state, action)=>{
 //we must make sure that this add blog post function gets access to dispatch from another file (createdatacontext)-
 //-that's how we change our state- make sure that we call this function  with The (Dispatch)
 const addBlogPost = dispatch => {
-    return (title, content)=>{ //we can accept some arguments {title, content} -
-    //that will come from our component (CreateScreen) and then pass those through to the dispatch function
+
+//must accept a third argument - 'callback'- because added a callback function in CreateScreen to addBlogPost
+    return (title, content, callback)=>{ //we can accept some arguments {title, content} -
+//that will come from our component (CreateScreen) and then pass those through to the dispatch function
     dispatch({ type: 'add_blogpost', payload: { title, content}});//add those both { title, content} in to a payload property
-    };
+    callback();// this call returns to the index screen
+};
 //anytime someone calls add blog post we're going to dispatch an action object, which is 'add_blogpost' from switch
 //it describes how we want to change our data.
 };
