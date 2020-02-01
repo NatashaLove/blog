@@ -2,7 +2,9 @@ import React, { useState} from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 //TextInput for the user to input text
 
-const BlogPostForm = ()=> {
+//should receive this onSubmit prop (from the CreateScreen) at the top of the function-
+// destructure onSubmit out of our props object (it becomes one of its props- so we can use it): 
+const BlogPostForm = ( {onSubmit} )=> {
 //need two different pieces of state one to handle the title entry and one to handle the content entry;
 // we need to tell those text inputs what their values are- 
 //We need to customize those initial starting values that we're passing:
@@ -26,6 +28,12 @@ const BlogPostForm = ()=> {
             />
             <Button 
                 title="Save Blog Post" 
+                onPress={()=> onSubmit(title, content)}
+//!in the blogpostform we're going to make sure that any time a user taps on that submit button -
+//we call onSubmit with a new title and content !   
+//add on new prop - onPress and inside of it - run our onSubmit callback-
+//- that was passed in as a prop to blogpostform in CreateScreen.
+
               //  onPress={()=> {} }
              />
         </View>

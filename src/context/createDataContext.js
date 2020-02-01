@@ -14,7 +14,8 @@ import React, {useReducer} from 'react';
 export default (reducer, actions, initialState)=> {
     const Context = React.createContext();
 
-    const Provider = ({children}) => {
+    const Provider = ({children}) => { //it is <App> wrapped in this {children} arg   
+
         const[state, dispatch] = useReducer(reducer, initialState);
 
 //actions === { addBlogPOst: (dispatch) => {return ()=>{}}}
@@ -26,10 +27,10 @@ And we're going to pass it on down into our value prop right here below:
 And it's essentially going to let all of our child components make changes to our state object..
 */
 
-const boundActions = {};
-for (let key in actions) {
-    boundActions[key] = actions[key](dispatch);
-}
+        const boundActions = {};
+        for (let key in actions) {
+            boundActions[key] = actions[key](dispatch);
+            }
 
 
         return <Context.Provider value={{state, ...boundActions }}>
