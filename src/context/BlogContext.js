@@ -1,5 +1,7 @@
 //import React, { useReducer } from 'react';// don't need now because not using jsx in this file..
 import createDataContext from './createDataContext';
+import jsonServer from '../api/jsonServer';// importing axios instance to use it to make requests from 'actions'
+
 //adding useState helper function to rerender app with new data
 //but going to use hook - useReducer instead- the key to the reducer function - 
 // no matter what it always returns a new value to be used as our state object
@@ -11,6 +13,12 @@ import createDataContext from './createDataContext';// don't need it specificall
 const blogReducer = (state, action)=>{
 //the difference with reducer is that we can very easily add additional case statements to switch and can modify our list of blog posts in different ways:
     switch (action.type) {
+        case 'get_blogposts':
+            return action.payload; //that's enough! no need for [...state,...] etc, because
+// whenever we get a response back from the API -our assumption is that the API is always the total source of information inside of our app.
+ // So when we get this response back from the API: that list of blog posts is the total list of blog posts.
+//So we don't try to add this new response onto any existing state, Instead we replace all of our existing state with it because it is the total source of truth.
+
         case 'add_blogpost':
 //similar codes described below in comments from useState
             return [
@@ -68,6 +76,22 @@ case 'edit_blogpost':
             return state;
     }
 };
+//need to create a new action func to fetch posts, ie -to make request,get response and dispatch an action:
+//need to use "async -await" syntax, because we're going make a network request.
+//So going to mark this function as 'async' -then inside of here we can make our network request:
+const getBlogPosts = dispatch => {
+//whenever we call 'dispatch', react is gonna take that object-and then automatically call our reducer-
+//That object is then going to be the second argument to our reducer:
+    return async () => {
+// response.data === [{}, {}, {}]   // 'response.data' property- array of objects -
+//---that's where our list of blog posts is going to be -every object is our blog:
+        const response = await jsonServer.get('/blogposts') 
+//any route that we put inside of here will be contaminated with a base URL -which is specified inside of our configuration (jsonServer);
+//the request returns response..
+        dispatch({ type: 'get_blogposts', payload: response.data});
+    };
+};
+
 
 //create a new temp helper func 'addblogpost' -I'm gonna pass this helper function down into my value prop -
 //so that my index screen can very easily dispatch in action to add in a new blog post
@@ -114,9 +138,11 @@ export const { Context, Provider}= createDataContext(
 //all 3 args from the function in the file: 1.reducer, 2.object that contains all the different actions that we want to have:
 //In that case that's gonna be our addblogpost function, 3.initial default state value =an empty array :
     blogReducer, 
-    { addBlogPost, deleteBlogPost, editBlogPost}, 
-    [{title: 'TEST POST', content: 'TEST CONTENT', id: 1 }] // we could put in some default blog post to appear when our application is first loaded:
-    //inside of this array - put in an object with the title 'test post', content 'test content' and id:1
+    { addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts }, 
+    [] //empty []- initial state when our application first loads up- empty array means we do not yet have any blog posts at all.
+// we could put in some default blog post to appear when our application is first loaded:
+//inside of this array - put in an object with the title 'test post', content 'test content' and id:1:
+//{title: 'TEST POST', content: 'TEST CONTENT', id: 1 }
     );
 
 /*
