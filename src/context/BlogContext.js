@@ -33,7 +33,26 @@ const blogReducer = (state, action)=>{
 //blogPost obj is going to be returned and included into a new arr 'state', because it's not equal (by id) to the one to be deleted
 
         case 'edit_blogpost':
-           
+
+//array.map()-looking for THE blogPost by id -
+// The map() method creates a new array populated with the =results= after calling a provided function on every element in the array:
+            return state.map((blogPost) => {
+                return blogPost.id === action.payload.id
+                ? action.payload// payload = whole obj blogPost
+                : blogPost; //
+            });
+//the above code is short for if-else:
+/*
+if (blogPost.id === action.payload.id) {
+    return action.payload; // if founf the blog post by id - loads the form to edit it
+} else {
+    return blogPost; // if not- shows the same post- existing blog post.
+}
+*/
+
+/*
+my own working alternative -
+case 'edit_blogpost':
             return state.filter((blogPost) => blogPost.id !==action.payload.id),
             [
                 ...state,
@@ -43,6 +62,7 @@ const blogReducer = (state, action)=>{
                     content: action.payload.content
                 }
             ];
+*/
 
         default:
             return state;
@@ -75,7 +95,10 @@ const deleteBlogPost = dispatch => {
 
 const editBlogPost = dispatch => {
     return (title, content, id, callback) =>{
-        dispatch ({ type: 'edit_blogpost', payload: { title, content, id} });//dispatch has 2 arg : type and payload
+        dispatch ({ 
+            type: 'edit_blogpost', 
+            payload: { title, content, id} 
+        });//dispatch has 2 arg : type and payload
         callback();// this call returns to the index screen
     }
 }

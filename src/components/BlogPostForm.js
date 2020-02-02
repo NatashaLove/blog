@@ -11,7 +11,7 @@ const BlogPostForm = ( {onSubmit, initialValues} )=> {
     const [title, setTitle]= useState(initialValues.title);
     const[content, setContent] = useState(initialValues.content);
 //added var initialValues for editscreen- but this var is undefined for CreateScreen-(doesn't provide it)
-    const id = useState(initialValues.id);
+    //const id = useState(initialValues.id);
   
     return (
         <View>
@@ -29,7 +29,7 @@ const BlogPostForm = ( {onSubmit, initialValues} )=> {
             />
             <Button 
                 title="Save Blog Post" 
-                onPress={()=> onSubmit(title, content, id)}
+                onPress={()=> onSubmit(title, content)}
 //!in the blogpostform we're going to make sure that any time a user taps on that submit button -
 //we call onSubmit with a new title and content !   
 //add on new prop - onPress and inside of it - run our onSubmit callback-
@@ -52,7 +52,7 @@ BlogPostForm.defaultProps = {
     initialValues : {
         title: '',
         content: '',
-        id: ''
+       
     }
 };
 //whenever we show blogpostform from the createscreen initialValues.title =
