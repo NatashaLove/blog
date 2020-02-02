@@ -8,12 +8,13 @@ import {EvilIcons} from '@expo/vector-icons';
 //called Get param- then pass in a string that will be the I.D. or some of the property name 
 //that we want to retrieve during that navigate call over here: console.log(navigation.getParam('id'));
 const ShowScreen = ({ navigation})=> {
+    const id = navigation.getParam ('id');// to use directly 'id' var
     const { state } = useContext(Context);// going to pass data through context-where we get it from
 // find - helper func for arrays :  if the I.D. that was provided into this screen from Index screen
 // is equal to the blog post I.D.-We found the appropriate blog post. Let's assign it to that variable.
 //And now we can show it on the screen:
     const blogPost = state.find(
-        (blogPost) => blogPost.id === navigation.getParam('id')
+        (blogPost) => blogPost.id === id //navigation.getParam('id')
         );
 
     return (

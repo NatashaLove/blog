@@ -29,7 +29,7 @@ And it's essentially going to let all of our child components make changes to ou
 
         const boundActions = {};
         for (let key in actions) {
-            boundActions[key] = actions[key](dispatch);
+            boundActions[key] = actions[key](dispatch);//add, edit, delete..
             }
 
 

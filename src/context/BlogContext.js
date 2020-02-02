@@ -79,7 +79,11 @@ const addBlogPost = dispatch => {
     return (title, content, callback)=>{ //we can accept some arguments {title, content} -
 //that will come from our component (CreateScreen) and then pass those through to the dispatch function
     dispatch({ type: 'add_blogpost', payload: { title, content}});//add those both { title, content} in to a payload property
+    if (callback){
     callback();// this call returns to the index screen
+//without providing a callback, the code would result in an error.(if we decide not to navigate the user somewhere else right away.)
+//to solve the issue is to wrap both these with :If callback exists then call callback.    
+    };
 };
 //anytime someone calls add blog post we're going to dispatch an action object, which is 'add_blogpost' from switch
 //it describes how we want to change our data.
@@ -99,7 +103,9 @@ const editBlogPost = dispatch => {
             type: 'edit_blogpost', 
             payload: { title, content, id} 
         });//dispatch has 2 arg : type and payload
-        callback();// this call returns to the index screen
+        if (callback){
+            callback();// this call returns to the index screen
+        };
     }
 }
 

@@ -28,10 +28,12 @@ const EditScreen = ({navigation})=> {
 //after submitting it changes
             //console.log(title, content, id);
 // to have no errors before taking the same id for updated post- should delete the old post:
-            deleteBlogPost(blogPost.id);
+            //deleteBlogPost(blogPost.id);//in case it navigated to index screen and created 2 posts w/the same id
     
-            editBlogPost(title, content, id, () => navigation.navigate('Index'));//last one is callback ()=>
-                   
+            editBlogPost(title, content, id, () => navigation.pop());//navigation.navigate('Show', { id}));//last one is callback ()=>
+//if instead of navigating to the show screen-We want to go back to previous screen:
+//navigation.pop func returns the user to the previous screen.
+
             }}
 
         />

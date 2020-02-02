@@ -10,9 +10,12 @@ const BlogPostForm = ( {onSubmit, initialValues} )=> {
 //We need to customize those initial starting values that we're passing:
     const [title, setTitle]= useState(initialValues.title);
     const[content, setContent] = useState(initialValues.content);
+//When we declare a state variable(piece of state) with useState, it returns a pair — an array with two items:
+//- The first item is the current value, and the second is a function that lets us update it. 
+//(Using [0] and [1] to access them is a bit confusing because they have a specific meaning.) This is why we use array destructuring instead.
+
 //added var initialValues for editscreen- but this var is undefined for CreateScreen-(doesn't provide it)
-    //const id = useState(initialValues.id);
-  
+     
     return (
         <View>
             <Text style={styles.label}>Enter Title:</Text>
