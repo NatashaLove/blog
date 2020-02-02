@@ -1,15 +1,17 @@
-import React, { useContext } from 'react';//useState here to control TextInput
+import React, { useContext, useState } from 'react';//useState here to control TextInput
 import { StyleSheet } from 'react-native';//TextInput for the user to input text
 import { Context } from '../context/BlogContext';// import can get access to our context
 import BlogPostForm from '../components/BlogPostForm';
 
 const EditScreen = ({navigation})=> {
-    const { state } =useContext(Context);
-    const {addBlogPost} = useContext(Context);
-//iterate through arr blogpost- all the posts and find one with the same I.D. as navigation get param I.D
+    const { state, editBlogPost, deleteBlogPost } =useContext(Context);
+    //const {editBlogPost} = useContext(Context);
+//iterate through arr blogposts/state- all the posts and find one with the same I.D. -
+//as navigation.getparam (I.D) and assign it to const blogPost (current to edit):
     const blogPost = state.find(
         (blogPost) => blogPost.id === navigation.getParam('id')
     );
+   
 
 //add in some callback func to our editscreen and pass it down into blogpostform(separate component/file)-
 // and then we will come back to this <BlogPostForm> and make sure -
@@ -19,12 +21,25 @@ const EditScreen = ({navigation})=> {
 //existing title and content values should be taken from -const BlogPost - above (by id),
 //and passed down as some starting initial form values to our form:        
         <BlogPostForm 
-            initialValues={{ title: blogPost.title, content: blogPost.content}}
-            onSubmit={(title, content) => {
+            initialValues={{ title: blogPost.title, content: blogPost.content, id: blogPost.id}}
+//data prop =blog posts: our array of objects 
+          //   data={state} // pass in that data property to our flat list
 
-        console.log(title,content);
-        addBlogPost(title, content, () => navigation.navigate('Index'));
-            }} 
+// key extractor: a function that's going to be called with every object inside of our array.
+// from key extractor we have to return a String to be used as a key: in our case we have a unique string -
+//It's the title of every blog post.
+            keyExtractor={(state) => state.title}
+            
+            onSubmit={(title, content, id) => {
+
+            console.log(title, content, id);
+
+            deleteBlogPost(blogPost.id);
+    
+            editBlogPost(title, content, blogPost.id, () => navigation.navigate('Index'));
+                   
+            }}
+
         />
     );
 };

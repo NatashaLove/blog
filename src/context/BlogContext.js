@@ -14,7 +14,7 @@ const blogReducer = (state, action)=>{
         case 'add_blogpost':
 //similar codes described below in comments from useState
             return [
-                ...state,
+                ...state,//array
                 { 
 //we should add in an I.D. property-we can use this I.D. to figure out exactly what blog post a user is trying to delete.
                     id: Math.floor (Math.random()*99999),//randomly generates the I.D
@@ -30,7 +30,19 @@ const blogReducer = (state, action)=>{
 //-If we return false then it's going to be rejected.
         case 'delete_blogpost':
             return state.filter((blogPost) => blogPost.id !==action.payload);
-//blogPost obj is going to be returned and included into a new arr, because it's not equal (by id) to the one to be deleted
+//blogPost obj is going to be returned and included into a new arr 'state', because it's not equal (by id) to the one to be deleted
+
+        case 'edit_blogpost':
+           
+            return state.filter((blogPost) => blogPost.id !==action.payload.id),
+            [
+                ...state,
+                {
+                    id: action.payload.id,
+                    title: action.payload.title,  //!we want to use payload from the method to set the user's title and the content!
+                    content: action.payload.content
+                }
+            ];
 
         default:
             return state;
@@ -57,17 +69,26 @@ const addBlogPost = dispatch => {
 const deleteBlogPost = dispatch => {
     return (id) =>{
         dispatch ({ type: 'delete_blogpost', payload: id })//dispatch has 2 arg : type and payload
+
     }
 }
+
+const editBlogPost = dispatch => {
+    return (title, content, id, callback) =>{
+        dispatch ({ type: 'edit_blogpost', payload: { title, content, id} });//dispatch has 2 arg : type and payload
+        callback();// this call returns to the index screen
+    }
+}
+
 //new export statement: destructure out context and provider from create datacontext func:
 export const { Context, Provider}= createDataContext(
 //all 3 args from the function in the file: 1.reducer, 2.object that contains all the different actions that we want to have:
 //In that case that's gonna be our addblogpost function, 3.initial default state value =an empty array :
     blogReducer, 
-    { addBlogPost, deleteBlogPost}, 
+    { addBlogPost, deleteBlogPost, editBlogPost}, 
     [{title: 'TEST POST', content: 'TEST CONTENT', id: 1 }] // we could put in some default blog post to appear when our application is first loaded:
     //inside of this array - put in an object with the title 'test post', content 'test content' and id:1
-    )
+    );
 
 /*
  //!!!pasted addBlogPost func outside the function : 'export const BlogProvider = ( {children})=> ' and deleted the entire Blogprovider,
