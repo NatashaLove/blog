@@ -92,6 +92,7 @@ const getBlogPosts = dispatch => {
     };
 };
 
+//making request to the API in all the functions:
 
 //create a new temp helper func 'addblogpost' -I'm gonna pass this helper function down into my value prop -
 //so that my index screen can very easily dispatch in action to add in a new blog post
@@ -99,15 +100,20 @@ const getBlogPosts = dispatch => {
 //-that's how we change our state- make sure that we call this function  with The (Dispatch)
 const addBlogPost = dispatch => {
 
-//must accept a third argument - 'callback'- because added a callback function in CreateScreen to addBlogPost
-    return (title, content, callback)=>{ //we can accept some arguments {title, content} -
+//must accept a third argument - 'callback'- because added a callback function in CreateScreen to addBlogPost(to navigate)
+    return async (title, content, callback)=>{ //we can accept some arguments {title, content} -
 //that will come from our component (CreateScreen) and then pass those through to the dispatch function
+    await jsonServer.post('/blogposts', {title, content});//request to the server (URL+'/blogposts') and data {title,content}.
+// this line is telling our Jason server to create a brand new blog post .
+
+/*
     dispatch({ type: 'add_blogpost', payload: { title, content}});//add those both { title, content} in to a payload property
     if (callback){
     callback();// this call returns to the index screen
 //without providing a callback, the code would result in an error.(if we decide not to navigate the user somewhere else right away.)
 //to solve the issue is to wrap both these with :If callback exists then call callback.    
-    };
+    }
+    */
 };
 //anytime someone calls add blog post we're going to dispatch an action object, which is 'add_blogpost' from switch
 //it describes how we want to change our data.
@@ -136,7 +142,7 @@ const editBlogPost = dispatch => {
 //new export statement: destructure out context and provider from create datacontext func:
 export const { Context, Provider}= createDataContext(
 //all 3 args from the function in the file: 1.reducer, 2.object that contains all the different actions that we want to have:
-//In that case that's gonna be our addblogpost function, 3.initial default state value =an empty array :
+// addblogpost etc, 3.initial default state value =an empty array :
     blogReducer, 
     { addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts }, 
     [] //empty []- initial state when our application first loads up- empty array means we do not yet have any blog posts at all.

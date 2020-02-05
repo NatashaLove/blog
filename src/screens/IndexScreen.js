@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';//imported hook into the child : useContext - to make use of that contex (from BlogContext)
+import React, { useContext, useEffect } from 'react';//imported hook into the child : useContext - to make use of that contex (from BlogContext)
 //function that's going look at some context object and give us access (to value prop - for example)
 import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native';
 //need flatlist for  arr of posts (objects)
@@ -9,8 +9,20 @@ const IndexScreen = ({navigation}) => {//{navigation } is the prop we need
 //(variable 'blogPosts' here is going to be exactly = to the value prop assigned in the blogcontext.provider
 //instead of var 'blogPosts' - insert the value - destructured object from BlogContext with callback func)
 //state==data
-const {state, deleteBlogPost} = useContext(Context);
+    const {state, deleteBlogPost, getBlogPosts } = useContext(Context);
+//inside useEffect - callback func runs only first time when app rendered:   
+    useEffect(()=> {
+        getBlogPosts();
 
+    }, []);// empty array right there means that we only want to run that error function 
+    //exactly one time when our component first shows up on the screen.
+
+/*
+!!! never call getBlogPosts func direcly onside the body like:
+getBlogPosts();
+anytime that we have a function like this -that modifies any state inside of application at all.
+-it'll infinite loop: app will rerender - cal the getblogposts-from the API- load them and rerender again etc
+-instead - useEffect -used to make sure that we only run some bit of code One time when a component is first rendered.
 /*
 had to delete the button (it was in View below):
 <Button title="Add Post" 
