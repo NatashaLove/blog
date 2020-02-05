@@ -106,14 +106,13 @@ const addBlogPost = dispatch => {
     await jsonServer.post('/blogposts', {title, content});//request to the server (URL+'/blogposts') and data {title,content}.
 // this line is telling our Jason server to create a brand new blog post .
 
-/*
-    dispatch({ type: 'add_blogpost', payload: { title, content}});//add those both { title, content} in to a payload property
+   // dispatch({ type: 'add_blogpost', payload: { title, content}});//add those both { title, content} in to a payload property
     if (callback){
     callback();// this call returns to the index screen
 //without providing a callback, the code would result in an error.(if we decide not to navigate the user somewhere else right away.)
 //to solve the issue is to wrap both these with :If callback exists then call callback.    
     }
-    */
+    
 };
 //anytime someone calls add blog post we're going to dispatch an action object, which is 'add_blogpost' from switch
 //it describes how we want to change our data.
