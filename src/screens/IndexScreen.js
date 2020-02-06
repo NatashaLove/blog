@@ -14,6 +14,17 @@ const IndexScreen = ({navigation}) => {//{navigation } is the prop we need
     useEffect(()=> {
         getBlogPosts();
 
+        const listener = navigation.addListener('didFocus', () => {
+            getBlogPosts();
+        });//arrow function here tells react navigation that anytime the index screen gains focus (becomes the primary screen on the device)-
+// then this callback function will be invoked with { getBlogPosts();}
+
+        return () => {
+            listener.remove();
+        };// this action will be invoked in case we decide not to show index screen any more - and completely removed it..
+//-the callback func in the return- cleans up after the listner-so there's no memory leak.
+
+
     }, []);// empty array right there means that we only want to run that error function 
     //exactly one time when our component first shows up on the screen.
 

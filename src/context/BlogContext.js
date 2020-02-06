@@ -19,19 +19,6 @@ const blogReducer = (state, action)=>{
  // So when we get this response back from the API: that list of blog posts is the total list of blog posts.
 //So we don't try to add this new response onto any existing state, Instead we replace all of our existing state with it because it is the total source of truth.
 
-        case 'add_blogpost':
-//similar codes described below in comments from useState
-            return [
-                ...state,//array
-                { 
-//we should add in an I.D. property-we can use this I.D. to figure out exactly what blog post a user is trying to delete.
-                    id: Math.floor (Math.random()*99999),//randomly generates the I.D
-                    title: action.payload.title,  //!we want to use payload from the method to set the user's title and the content!
-//instead of title- `Blog Post #${state.length + 1}`
-                    content: action.payload.content
-                }
-            ];//2 arg- action
-
 //filter function-helper func for arrays- is going to iterate through all the different elements inside of our state array and then run some child function 
 //+that we'll pass in, if we return a true value from this.
 //Then the given element will be returned inside of an overall new overall array.
@@ -75,6 +62,21 @@ case 'edit_blogpost':
         default:
             return state;
     }
+/*
+//don't need case add_blogpost anymore - because not using dispatch..
+        case 'add_blogpost':
+//similar codes described below in comments from useState
+            return [
+                ...state,//array
+                { 
+//we should add in an I.D. property-we can use this I.D. to figure out exactly what blog post a user is trying to delete.
+                    id: Math.floor (Math.random()*99999),//randomly generates the I.D
+                    title: action.payload.title,  //!we want to use payload from the method to set the user's title and the content!
+//instead of title- `Blog Post #${state.length + 1}`
+                    content: action.payload.content
+                }
+            ];//2 arg- action
+*/    
 };
 //need to create a new action func to fetch posts, ie -to make request,get response and dispatch an action:
 //need to use "async -await" syntax, because we're going make a network request.
@@ -94,6 +96,7 @@ const getBlogPosts = dispatch => {
 
 //making request to the API in all the functions:
 
+//!update: since we don't use dispath any more 
 //create a new temp helper func 'addblogpost' -I'm gonna pass this helper function down into my value prop -
 //so that my index screen can very easily dispatch in action to add in a new blog post
 //we must make sure that this add blog post function gets access to dispatch from another file (createdatacontext)-
@@ -106,8 +109,10 @@ const addBlogPost = dispatch => {
     await jsonServer.post('/blogposts', {title, content});//request to the server (URL+'/blogposts') and data {title,content}.
 // this line is telling our Jason server to create a brand new blog post .
 
-   // dispatch({ type: 'add_blogpost', payload: { title, content}});//add those both { title, content} in to a payload property
-    if (callback){
+    // dispatch({ type: 'add_blogpost', payload: { title, content}});//add those both { title, content} in to a payload property
+// don't need dispatch any more -because anytime now we add a blogpost- we call '/blogposts'-from the server and
+//then refresh the index screen and upload all posts in the app.
+   if (callback){
     callback();// this call returns to the index screen
 //without providing a callback, the code would result in an error.(if we decide not to navigate the user somewhere else right away.)
 //to solve the issue is to wrap both these with :If callback exists then call callback.    
