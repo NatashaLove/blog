@@ -125,14 +125,21 @@ const addBlogPost = dispatch => {
 //to add a new way to change state of object (like delete/edit post):
 //-need to 1.add a new func, which will call dispatch func;2. add a new case
 const deleteBlogPost = dispatch => {
-    return (id) =>{
+    return async id =>{
+// this deletes blog piost on the server:        
+        await jsonServer.delete(`/blogposts/${id}`);//have to use string template to insert {id} into string (!with backticks! ``)
+// this deletes blogpost locally on the device (no need to refresh the whole list again from the server and load into the app):        
         dispatch ({ type: 'delete_blogpost', payload: id })//dispatch has 2 arg : type and payload
 
     }
 }
 
 const editBlogPost = dispatch => {
-    return (title, content, id, callback) =>{
+    return async (title, content, id, callback) =>{
+//to send updated title and content to our server -should use a PUT request;
+//PUT request is used any time that we want to update a record with a given I.D-first arg, 
+//and the updated object {title,content}-second arg:
+        await jsonServer.put(`/blogposts/${id}`, { title, content});
         dispatch ({ 
             type: 'edit_blogpost', 
             payload: { title, content, id} 
